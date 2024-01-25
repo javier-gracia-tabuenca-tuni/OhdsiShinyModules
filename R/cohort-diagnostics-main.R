@@ -465,6 +465,9 @@ cohortDiagnosticsServer <- function(id,
 
     # conceptSetIds ----
     conceptSetIds <- shiny::reactive(x = {
+      if (nrow(conceptSets) == 0) {
+        return(NULL)
+      }
       conceptSetsFiltered <- conceptSets %>%
         dplyr::filter(.data$conceptSetName %in% selectedConceptSets()) %>%
         dplyr::filter(.data$cohortId %in% targetCohortId()) %>%
@@ -559,6 +562,9 @@ cohortDiagnosticsServer <- function(id,
     ### getConceptSetNameForFilter ----
     getConceptSetNameForFilter <- shiny::reactive(x = {
       if (!hasData(targetCohortId())) {
+        return(NULL)
+      }
+      if (nrow(dataSource$conceptSets) == 0) {
         return(NULL)
       }
       dataSource$conceptSets %>%
